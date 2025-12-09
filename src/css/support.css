@@ -1,0 +1,180 @@
+.sp-hub {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sp-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sp-title {
+  margin: 0 !important;
+}
+
+.sp-subtitle {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.sp-error {
+  border-radius: 10px;
+}
+
+.sp-search-card {
+  border-radius: 12px;
+}
+
+.sp-section-title {
+  font-size: 12.5px;
+  color: #0f172a;
+}
+
+.sp-cats .ant-card-body {
+  padding: 14px;
+}
+
+.sp-cat-card {
+  border-radius: 12px;
+  border: 1px solid #e6eef9;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+.sp-cat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #eef6ff;
+  color: #1677ff;
+  font-size: 18px;
+  flex: 0 0 34px;
+}
+
+.sp-cat-title {
+  font-size: 13px;
+}
+
+.sp-cat-desc {
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.sp-panel {
+  border-radius: 12px;
+}
+
+.sp-muted {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.sp-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1677ff;
+  display: inline-block;
+}
+
+.sp-new-tag {
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.sp-contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+@media (max-width: 576px) {
+  .sp-contact-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sp-chat-badge .ant-badge-status-text {
+  font-size: 10.5px;
+}
+
+.sp-tickets {
+  margin-top: 2px;
+}
+
+.sp-tickets-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sp-ticket-id {
+  font-weight: 600;
+}
+
+.sp-status-tag {
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+.sp-table .ant-table {
+  border-radius: 10px;
+}
+
+.sp-tickets-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.sp-drawer-alert {
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.sp-kb-item {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sp-empty {
+  padding: 14px 0;
+}
+
+.sp-chat-box {
+  border-radius: 12px;
+}
+
+.sp-chat-feed {
+  min-height: 140px;
+  max-height: 220px;
+  overflow: auto;
+  padding: 8px;
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.sp-chat-bubble {
+  display: inline-block;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 11.5px;
+}
+
+.sp-chat-bubble--sys {
+  background: #eaf2ff;
+  color: #0f3b8b;
+}
+
+.sp-chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}

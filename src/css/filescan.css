@@ -1,0 +1,210 @@
+.cg-filescan {
+  padding: 18px 20px 32px;
+  background: #f5f7fb;
+  min-height: 100%;
+}
+
+.cg-page-head {
+  margin-bottom: 14px;
+}
+
+.cg-page-title {
+  margin: 0 !important;
+  font-weight: 650;
+}
+
+.cg-page-sub {
+  margin: 2px 0 0 !important;
+  color: #6b7280;
+  font-size: 12.5px;
+}
+
+.cg-alert {
+  margin-bottom: 14px;
+}
+
+.cg-card {
+  border-radius: 12px !important;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.04),
+              0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.cg-divider {
+  margin: 14px 0 !important;
+}
+
+.cg-upload-zone {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.cg-dragger.ant-upload-drag {
+  border-radius: 10px !important;
+  background: #f8fafc !important;
+  border: 1px dashed #d7dce5 !important;
+}
+
+.cg-dragger-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 10px;
+}
+
+.cg-dragger-title {
+  font-size: 12.5px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.cg-table .ant-table-thead > tr > th {
+  font-size: 11.5px;
+  color: #6b7280;
+  background: #fafafa;
+}
+
+.cg-table .ant-table-tbody > tr > td {
+  font-size: 12px;
+}
+
+.cg-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11.5px;
+}
+
+.cg-tag-soft {
+  background: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #374151 !important;
+  font-size: 11px;
+}
+
+.cg-radio-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cg-select-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cg-label-strong {
+  font-size: 11.5px;
+  color: #111827;
+}
+
+.cg-select {
+  width: 100%;
+  max-width: 280px;
+}
+
+.cg-run-wrap {
+  margin-top: 14px;
+}
+
+.cg-empty-result {
+  padding: 18px 0 6px;
+}
+
+.cg-result-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cg-result-pill--bad {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.cg-result-pill--good {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.cg-gauge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cg-gauge-caption {
+  margin-left: 6px;
+}
+
+.cg-risk-text {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.cg-confidence-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cg-confidence-value {
+  margin: 0 !important;
+}
+
+.cg-risk-tag {
+  font-size: 10px !important;
+  padding: 0 6px !important;
+}
+
+.cg-result-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.cg-mini {
+  background: #fbfdff !important;
+  border: 1px solid #eef2f7 !important;
+  border-radius: 10px !important;
+}
+
+.cg-mini .ant-statistic-title {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.cg-mini .ant-statistic-content {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cg-indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 2px 10px;
+}
+
+.cg-indicator-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed #eef2f7;
+  padding-bottom: 8px;
+}
+
+.cg-result-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
