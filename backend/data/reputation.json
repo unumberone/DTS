@@ -1,0 +1,39 @@
+{
+    "version": "2024.01.10.1",
+    "blacklist": {
+        "hashes": {
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855": {
+                "label": "Known.EmptyFile.Test",
+                "score": 100
+            }
+        },
+        "domains": [
+            "malicious-site.com",
+            "c2-server.net"
+        ],
+        "ips": [
+            "192.168.1.200"
+        ]
+    },
+    "whitelist": {
+        "hashes": {
+            "7d7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e": {
+                "reason": "System File",
+                "confidence": 1.0
+            }
+        },
+        "signers": [
+            "Microsoft Corporation",
+            "Google LLC",
+            "Adobe Inc."
+        ]
+    },
+    "greylist": {
+        "signers": [
+            "Unknown Publisher"
+        ],
+        "patterns": [
+            "temp_folder_execution"
+        ]
+    }
+}

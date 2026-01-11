@@ -1,0 +1,1283 @@
+[
+    {
+        "id": "1001",
+        "filename": "demo_virus.exe",
+        "type": "exe",
+        "result": "Malicious",
+        "confidence": 98,
+        "details": "Known signature detected.",
+        "timestamp": "2026-01-06T12:00:00.000000",
+        "uploader": "system"
+    },
+    {
+        "id": "1002",
+        "filename": "report.pdf",
+        "type": "pdf",
+        "result": "Clean",
+        "confidence": 0,
+        "details": "No threats found.",
+        "timestamp": "2026-01-06T12:05:00.000000",
+        "uploader": "system"
+    },
+    {
+        "id": "44150",
+        "filename": "Group 12.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 1.05,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-06T23:38:59.190157",
+        "uploader": "admin"
+    },
+    {
+        "id": "92033",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 0.97,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T17:45:36.575416",
+        "uploader": "admin"
+    },
+    {
+        "id": "26895",
+        "filename": "H\u1ec7 qu\u1ea3n tr\u1ecb v\u00e0 an to\u00e0n c\u01a1 s\u1edf d\u1eef li\u1ec7u (1).pdf",
+        "type": "pdf",
+        "result": "Benign",
+        "confidence": 4.05,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T17:47:48.205536",
+        "uploader": "admin"
+    },
+    {
+        "id": "77597",
+        "filename": "H\u1ec7 qu\u1ea3n tr\u1ecb v\u00e0 an to\u00e0n c\u01a1 s\u1edf d\u1eef li\u1ec7u (1).pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 99.23,
+        "details": "Suspicious behavioral chain identified.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T17:47:51.153098",
+        "uploader": "admin"
+    },
+    {
+        "id": "79501",
+        "filename": "slide.pdf",
+        "type": "pdf",
+        "result": "Benign",
+        "confidence": 0.02,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T19:33:37.597707",
+        "uploader": "admin"
+    },
+    {
+        "id": "15667",
+        "filename": "slide.pdf",
+        "type": "pdf",
+        "result": "Scareware",
+        "confidence": 99.36,
+        "details": "Suspicious behavioral chain identified.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T19:33:40.239485",
+        "uploader": "admin"
+    },
+    {
+        "id": "61716",
+        "filename": "admin_accounts.ai_commerce.seed.json",
+        "type": "json",
+        "result": "Benign",
+        "confidence": 4.2,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T19:51:10.116945",
+        "uploader": "admin"
+    },
+    {
+        "id": "82535",
+        "filename": "admin_accounts.ai_commerce.seed.json",
+        "type": "json",
+        "result": "Benign",
+        "confidence": 4.89,
+        "details": "Clean file.",
+        "model_used": "Hybrid CNN-LSTM",
+        "timestamp": "2026-01-07T19:51:38.656148",
+        "uploader": "admin"
+    },
+    {
+        "id": "21396",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 95.4,
+        "details": "Suspicious behavioral chain identified.",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T22:25:01.246922",
+        "uploader": "admin"
+    },
+    {
+        "id": "66582",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Wiper",
+        "confidence": 98.02,
+        "details": "Suspicious behavioral chain identified.",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T22:27:48.001334",
+        "uploader": "admin"
+    },
+    {
+        "id": "99538",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 2.17,
+        "details": "Clean file.",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T22:28:00.150650",
+        "uploader": "admin"
+    },
+    {
+        "id": "60613",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 2.88,
+        "details": "Clean file.",
+        "model_used": "LSTM",
+        "timestamp": "2026-01-10T22:28:02.824546",
+        "uploader": "admin"
+    },
+    {
+        "id": "84719",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 2.53,
+        "details": "Clean file.",
+        "model_used": "Transformer",
+        "timestamp": "2026-01-10T22:28:06.144541",
+        "uploader": "admin"
+    },
+    {
+        "id": "49033",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 3.77,
+        "details": "Clean file.",
+        "model_used": "Transformer",
+        "timestamp": "2026-01-10T22:28:46.150530",
+        "uploader": "admin"
+    },
+    {
+        "id": "95989",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Crypto-Ransomware",
+        "confidence": 95.76,
+        "details": "Suspicious behavioral chain identified.",
+        "model_used": "LSTM",
+        "timestamp": "2026-01-10T22:28:50.043274",
+        "uploader": "admin"
+    },
+    {
+        "id": "41158",
+        "filename": "testcase_chi_tiet_SIEM_MSSQL.docx",
+        "type": "docx",
+        "result": "Benign",
+        "confidence": 2.31,
+        "details": "Clean file.",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T22:28:52.345938",
+        "uploader": "admin"
+    },
+    {
+        "id": "46344",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Benign",
+        "confidence": 2.6,
+        "details": "Clean file. | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T22:29:27.917925",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "37920",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Locker-Ransomware",
+        "confidence": 97.05,
+        "details": "Suspicious behavioral chain identified. | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "LSTM",
+        "timestamp": "2026-01-10T22:29:38.754962",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "21772",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Suspicious",
+        "confidence": 53.0,
+        "details": "CNN_LSTM: Requires further investigation. Very high entropy (7.98) | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T23:01:58.057283",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "34557",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "CNN-LSTM detected malicious pattern (confidence: 100.00%) | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T23:18:12.686210",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "10812",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "LSTM detected malicious pattern (confidence: 100.00%) | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "LSTM",
+        "timestamp": "2026-01-10T23:20:03.679088",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "74601",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "CNN-LSTM detected malicious pattern (confidence: 100.00%) | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T23:26:21.642357",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "35870",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "CNN-LSTM detected malicious pattern (confidence: 100.00%) | Entropy: 7.98, Size: 10906030 bytes",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T23:30:57.993165",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123
+    },
+    {
+        "id": "47823",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "CNN-LSTM detected malicious pattern (confidence: 100.00%)",
+        "model_used": "CNN-LSTM",
+        "timestamp": "2026-01-10T23:37:44.524110",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123,
+        "is_pe": 0,
+        "suspicious_count": 3,
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Crypto-Ransomware",
+                "confidence": 100.0
+            },
+            {
+                "model": "LSTM",
+                "result": "Crypto-Ransomware",
+                "confidence": 100.0
+            },
+            {
+                "model": "Transformer",
+                "result": "Benign",
+                "confidence": 100.0
+            }
+        ]
+    },
+    {
+        "id": "29087",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Crypto-Ransomware",
+        "confidence": 100.0,
+        "details": "LSTM detected malicious pattern (confidence: 100.00%)",
+        "model_used": "LSTM",
+        "timestamp": "2026-01-10T23:38:19.963404",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": 7.982971301702123,
+        "is_pe": 0,
+        "suspicious_count": 3,
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Crypto-Ransomware",
+                "confidence": 100.0
+            },
+            {
+                "model": "LSTM",
+                "result": "Crypto-Ransomware",
+                "confidence": 100.0
+            },
+            {
+                "model": "Transformer",
+                "result": "Benign",
+                "confidence": 100.0
+            }
+        ]
+    },
+    {
+        "id": "84736",
+        "filename": "diagram-export-08-01-2026-22.09.00.png",
+        "type": "image",
+        "result": "Benign",
+        "confidence": 90.0,
+        "details": "Image file - clean content",
+        "model_used": "image_heuristic",
+        "timestamp": "2026-01-10T23:49:36.181827",
+        "uploader": "admin",
+        "file_size": 18451,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 0,
+        "verdict": "CLEAN",
+        "evidence": [],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "81100",
+        "filename": "diagram-export-08-01-2026-22.09.00.png",
+        "type": "image",
+        "result": "Benign",
+        "confidence": 90.0,
+        "details": "Image file - clean content",
+        "model_used": "image_heuristic",
+        "timestamp": "2026-01-10T23:49:40.442317",
+        "uploader": "admin",
+        "file_size": 18451,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 0,
+        "verdict": "CLEAN",
+        "evidence": [],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "84079",
+        "filename": "diagram-export-08-01-2026-22.09.00.png",
+        "type": "image",
+        "result": "Benign",
+        "confidence": 90.0,
+        "details": "Image file - clean content",
+        "model_used": "image_heuristic",
+        "timestamp": "2026-01-10T23:49:41.889223",
+        "uploader": "admin",
+        "file_size": 18451,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 0,
+        "verdict": "CLEAN",
+        "evidence": [],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "84057",
+        "filename": "diagram-export-08-01-2026-22.09.00.png",
+        "type": "image",
+        "result": "Benign",
+        "confidence": 90.0,
+        "details": "Image file - clean content",
+        "model_used": "image_heuristic",
+        "timestamp": "2026-01-10T23:49:44.052820",
+        "uploader": "admin",
+        "file_size": 18451,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 0,
+        "verdict": "CLEAN",
+        "evidence": [],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "75552",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:49:56.088705",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "40848",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:50:02.682511",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": []
+    },
+    {
+        "id": "43907",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:37.690529",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "39500",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:42.742270",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "74943",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:44.781997",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "20782",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:47.926938",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "31934",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:51.826223",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "37970",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "type": "pdf",
+        "result": "Malicious",
+        "confidence": 80.0,
+        "details": "PDF analysis: 7 suspicious patterns found",
+        "model_used": "pdf_parser",
+        "timestamp": "2026-01-10T23:52:55.990443",
+        "uploader": "admin",
+        "file_size": 10906030,
+        "entropy": null,
+        "is_pe": 0,
+        "suspicious_count": 0,
+        "risk_score": 89,
+        "verdict": "MALICIOUS",
+        "evidence": [
+            {
+                "type": "pdf_object",
+                "location": "obj_unknown_offset_8021765",
+                "reason": "JS action shorthand",
+                "score": 0.6,
+                "snippet": "/js\u000b\u07121@\u0017ME\u0004VYwmS]U+\u828f2$6\u0010r"
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_604",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_770",
+                "reason": "High entropy stream (7.98) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19452",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_19513",
+                "reason": "High entropy stream (7.86) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_25241",
+                "reason": "High entropy stream (7.95) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            },
+            {
+                "type": "pdf_object",
+                "location": "stream_offset_34224",
+                "reason": "High entropy stream (7.93) - possibly obfuscated",
+                "score": 0.3,
+                "snippet": ""
+            }
+        ],
+        "errors": [],
+        "all_models": [
+            {
+                "model": "CNN-LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "LSTM",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            },
+            {
+                "model": "Transformer",
+                "result": "Malicious",
+                "confidence": 80.0,
+                "note": "File type: pdf - Using pdf_parser"
+            }
+        ]
+    },
+    {
+        "id": "80292",
+        "filename": "benign_test.pdf",
+        "result": "MALICIOUS",
+        "confidence": 99,
+        "details": "Analyzed via cnn_lstm",
+        "timestamp": "2026-01-11T00:15:06.976994"
+    },
+    {
+        "id": "20880",
+        "filename": "benign_test.pdf",
+        "result": "MALICIOUS",
+        "confidence": 100,
+        "details": "Analyzed via lstm",
+        "timestamp": "2026-01-11T00:15:12.215126"
+    },
+    {
+        "id": "61114",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Analyzed via transformer",
+        "timestamp": "2026-01-11T00:15:16.396046"
+    },
+    {
+        "id": "57312",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Analyzed via all",
+        "timestamp": "2026-01-11T00:15:19.502901"
+    },
+    {
+        "id": "89197",
+        "filename": "benign_test.pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Analyzed via list_only",
+        "timestamp": "2026-01-11T00:15:21.839245"
+    },
+    {
+        "id": "22015",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Analyzed via hybrid",
+        "timestamp": "2026-01-11T00:15:23.775829"
+    },
+    {
+        "id": "34402",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-11T00:20:30.815343"
+    },
+    {
+        "id": "38854",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-11T00:20:37.602572"
+    },
+    {
+        "id": "66690",
+        "filename": "\u0110\u1ed3 \u00e1n 3.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: lstm",
+        "timestamp": "2026-01-11T00:20:41.993883"
+    },
+    {
+        "id": "69457",
+        "filename": "benign_test.pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:23:26.940995"
+    },
+    {
+        "id": "72108",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: lstm",
+        "timestamp": "2026-01-11T22:23:34.097515"
+    },
+    {
+        "id": "13200",
+        "filename": "\u0110\u1ed3 \u00e1n 2 (1).docx",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: lstm",
+        "timestamp": "2026-01-11T22:23:42.664640"
+    },
+    {
+        "id": "11174",
+        "filename": "\u0110\u1ed3 \u00e1n 2 (1).docx",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: transformer",
+        "timestamp": "2026-01-11T22:23:47.857108"
+    },
+    {
+        "id": "21839",
+        "filename": "\u0110\u1ed3 \u00e1n 2 (1).docx",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:23:52.966140"
+    },
+    {
+        "id": "16742",
+        "filename": "HO\u1ea0T \u0110\u1ed8NG 1.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:24:50.409618"
+    },
+    {
+        "id": "58321",
+        "filename": "Report_Week8.docx",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:25:01.712873"
+    },
+    {
+        "id": "23083",
+        "filename": "benign_test.pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: lstm",
+        "timestamp": "2026-01-11T22:32:35.514701"
+    },
+    {
+        "id": "64607",
+        "filename": "H\u1ec7 qu\u1ea3n tr\u1ecb v\u00e0 an to\u00e0n c\u01a1 s\u1edf d\u1eef li\u1ec7u (1).pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:32:45.374307"
+    },
+    {
+        "id": "60901",
+        "filename": "main.py",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: hybrid",
+        "timestamp": "2026-01-11T22:33:37.769471"
+    },
+    {
+        "id": "16122",
+        "filename": "main.py",
+        "result": "Benign",
+        "confidence": 6,
+        "details": "Mode: QUICK | Method: hybrid",
+        "timestamp": "2026-01-11T22:34:21.497323"
+    },
+    {
+        "id": "31034",
+        "filename": "benign_test.pdf",
+        "result": "UNKNOWN",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:35:30.420635"
+    },
+    {
+        "id": "83577",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:35:33.960026"
+    }
+]

@@ -1,0 +1,93 @@
+/* ===============================
+   Sidebar (no Tailwind)
+   =============================== */
+
+.cg-sidebar {
+  width: 256px;            /* tương đương w-64 */
+  min-height: 100vh;
+  padding: 24px 12px;      /* px-3 py-6 */
+  color: #e2e8f0;
+
+  background: linear-gradient(
+    180deg,
+    #334155 0%,
+    #1f2937 50%,
+    #0f172a 100%
+  );
+}
+
+.cg-sidebar__nav {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* gap-1 */
+}
+
+/* item */
+.cg-sidebar__item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+
+  color: #e2e8f0;
+  text-align: left;
+  cursor: pointer;
+
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+
+.cg-sidebar__item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.cg-sidebar__item:active {
+  transform: translateY(1px);
+}
+
+/* active item */
+.cg-sidebar__item.is-active {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+/* icon container */
+.cg-sidebar__icon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  color: #cbd5e1;
+  flex: 0 0 24px;
+}
+
+.cg-sidebar__icon.is-active {
+  color: #ffffff;
+}
+
+/* svg icon */
+.cg-sidebar__icon-svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+/* label */
+.cg-sidebar__label {
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* responsive optional */
+@media (max-width: 1024px) {
+  .cg-sidebar {
+    width: 240px;
+  }
+}
