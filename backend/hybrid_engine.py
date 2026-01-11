@@ -123,7 +123,7 @@ class HybridEngine:
         # Quick mode runs ALL 3 models in PARALLEL for speed
         # Then aggregates results using majority voting
         
-        if mode == "quick" and method in [AnalysisMethod.HYBRID, AnalysisMethod.ALL, "hybrid", "all"]:
+        if mode == "quick": # Run parallel scan for ANY method when quick mode is selected (method selector acts as 'primary view' filter in UI)
             print(f"[HYBRID] Starting QUICK SCAN (parallel 3 models) for {filename}")
             
             # Get features for ML models

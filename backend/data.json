@@ -1279,5 +1279,13 @@
         "confidence": 0,
         "details": "Mode: DEEP | Method: cnn_lstm",
         "timestamp": "2026-01-11T22:35:33.960026"
+    },
+    {
+        "id": "75309",
+        "filename": "benign_test.pdf",
+        "result": "Benign",
+        "confidence": 6,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-11T22:53:10.032417"
     }
 ]
