@@ -235,6 +235,15 @@ export default function FileScan() {
         if (results.cnn_lstm) allModelsData.push({ model: "ML: CNN-LSTM", result: results.cnn_lstm.verdict, confidence: results.cnn_lstm.risk_score || Math.round((results.cnn_lstm.confidence || 0) * 100) });
         if (results.transformer) allModelsData.push({ model: "ML: Transformer", result: results.transformer.verdict, confidence: results.transformer.risk_score || Math.round((results.transformer.confidence || 0) * 100) });
         if (results.rule_only) allModelsData.push({ model: "Rule-based", result: results.rule_only.verdict, confidence: results.rule_only.risk_score });
+
+        // Add GPT result if available
+        if (results.gpt_analysis && results.gpt_analysis.verdict) {
+          allModelsData.push({
+            model: "AI Assistant (GPT-4o)",
+            result: results.gpt_analysis.verdict,
+            confidence: results.gpt_analysis.risk_score
+          });
+        }
       }
       else if (model === "all") {
         // Prefer Hybrid as primary view, fallbacks
@@ -314,6 +323,8 @@ export default function FileScan() {
         });
       }
 
+      const gptRes = results.gpt_analysis || {};
+
       setResult({
         status: mappedStatus, // benign/suspicious/malicious for UI coloring
         displayType: displayType,
@@ -328,6 +339,7 @@ export default function FileScan() {
         evidence: primaryRes.evidence || [],
         errors: json.errors || [],
         fileType: json.file?.file_type || "unknown",
+        gptAnalysis: gptRes
       });
 
       message.success(`Analysis completed using ${model}`);
@@ -504,6 +516,12 @@ export default function FileScan() {
                     percent={Math.round(confidence)}
                     size={140}
                     strokeWidth={10}
+                    strokeColor={
+                      result.status === "malicious" ? "#ff4d4f" :  // Red for critical/malicious
+                        result.status === "suspicious" ? "#faad14" : // Yellow/Orange for suspicious
+                          result.status === "benign" ? "#52c41a" :     // Green for safe
+                            "#8c8c8c"                                     // Grey for unknown
+                    }
                   />
                   <div className="cg-gauge-caption">
                     <Text className="cg-risk-text">{result.risk}</Text>
@@ -578,6 +596,61 @@ export default function FileScan() {
                   ),
                 },
                 {
+                  key: "ai_insight",
+                  label: <Space><SafetyCertificateOutlined /> AI Insight</Space>,
+                  children: (
+                    <div style={{ padding: 16, background: "#f9f9f9", borderRadius: 8 }}>
+                      <Title level={4} style={{ marginBottom: 16 }}>AI Analysis (GPT-4o)</Title>
+                      {result.gptAnalysis?.verdict === "SKIPPED" || result.gptAnalysis?.available === false ? (
+                        // GPT was skipped (quota, error, etc.)
+                        <Alert
+                          message="GPT Analysis Unavailable"
+                          description={result.gptAnalysis?.explanation || "GPT analysis was skipped. Results are based on 3 ML models (LSTM, CNN-LSTM, Transformer) + Rule Engine."}
+                          type="warning"
+                          showIcon
+                          style={{ marginBottom: 16 }}
+                        />
+                      ) : result.gptAnalysis?.explanation ? (
+                        // GPT analysis successful
+                        <>
+                          <Paragraph style={{ fontSize: 16 }}>{result.gptAnalysis.explanation}</Paragraph>
+                          {result.gptAnalysis.key_findings && result.gptAnalysis.key_findings.length > 0 && (
+                            <div style={{ marginTop: 12, marginBottom: 12 }}>
+                              <Text strong>Key Findings:</Text>
+                              <ul style={{ marginTop: 8 }}>
+                                {result.gptAnalysis.key_findings.map((f, i) => (
+                                  <li key={i}>{f}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          <Divider />
+                          <div style={{ display: 'flex', gap: 16 }}>
+                            <Statistic
+                              title="AI Verdict"
+                              value={result.gptAnalysis.verdict}
+                              valueStyle={{
+                                color: result.gptAnalysis.verdict === "MALICIOUS" ? "#ff4d4f" :
+                                  result.gptAnalysis.verdict === "SUSPICIOUS" ? "#faad14" : "#52c41a"
+                              }}
+                            />
+                            <Statistic title="Risk Score" value={result.gptAnalysis.risk_score} suffix="/ 100" />
+                            <Statistic title="Confidence" value={Math.round((result.gptAnalysis.confidence || 0) * 100)} suffix="%" />
+                          </div>
+                        </>
+                      ) : (
+                        // No GPT analysis at all
+                        <Alert
+                          message="Analysis based on 3 ML Models"
+                          description="The scan results are based on LSTM, CNN-LSTM, and Transformer models combined with rule-based analysis."
+                          type="info"
+                          showIcon
+                        />
+                      )}
+                    </div>
+                  )
+                },
+                {
                   key: "indicators",
                   label: "Indicators",
                   children: (
@@ -609,7 +682,7 @@ export default function FileScan() {
                               className="cg-mini"
                               bordered={false}
                               style={{
-                                borderLeft: m.result === "Benign" ? "3px solid #52c41a" :
+                                borderLeft: m.result === "SAFE" || m.result === "CLEAN" || m.result === "Benign" ? "3px solid #52c41a" :
                                   m.result === "Suspicious" ? "3px solid #faad14" : "3px solid #ff4d4f"
                               }}
                             >
@@ -617,7 +690,7 @@ export default function FileScan() {
                                 title={m.model}
                                 value={m.result}
                                 valueStyle={{
-                                  color: m.result === "Benign" ? "#52c41a" :
+                                  color: m.result === "Safe" || m.result === "CLEAN" || m.result === "Benign" ? "#52c41a" :
                                     m.result === "Suspicious" ? "#faad14" : "#ff4d4f",
                                   fontSize: "16px"
                                 }}
@@ -631,9 +704,7 @@ export default function FileScan() {
                         <div style={{ marginTop: 16, padding: 12, background: "#f5f5f5", borderRadius: 8 }}>
                           <Text strong>Analysis Summary: </Text>
                           <Text>
-                            {result.allModels.filter(m => m.result === "Benign").length} of 3 models classify as Benign,
-                            {result.allModels.filter(m => m.result !== "Benign" && m.result !== "Suspicious").length} as Malicious,
-                            {result.allModels.filter(m => m.result === "Suspicious").length} as Suspicious.
+                            {result.allModels.filter(m => ["Benign", "CLEAN", "SAFE"].includes(m.result)).length} of {result.allModels.length} models classify as Safe.
                           </Text>
                         </div>
                       )}

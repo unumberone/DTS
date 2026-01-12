@@ -634,19 +634,45 @@ def get_overview_stats():
             cat_counts[r] = cat_counts.get(r, 0) + 1
     
     categories = [{"label": k, "value": v} for k, v in cat_counts.items()]
+    
+    # Transform threats to match frontend field expectations
+    def transform_threat(d):
+        # Get file size and format it
+        size_bytes = d.get('file_size', 0)
+        if size_bytes >= 1024 * 1024:
+            size_label = f"{size_bytes / (1024 * 1024):.2f} MB"
+        elif size_bytes >= 1024:
+            size_label = f"{size_bytes / 1024:.1f} KB"
+        else:
+            size_label = f"{size_bytes} B"
+        
+        return {
+            "id": d.get('id'),
+            "fileName": d.get('filename', 'Unknown'),  # Frontend expects fileName
+            "type": d.get('type', d.get('filename', '').split('.')[-1] if '.' in d.get('filename', '') else 'unknown'),
+            "sizeLabel": size_label,
+            "result": d.get('result', 'Unknown'),
+            "confidence": d.get('confidence', 0),
+            "timestamp": d.get('timestamp', ''),
+            "uploader": d.get('uploader', 'admin'),
+            "details": d.get('details', '')
+        }
+    
+    threats_raw = [d for d in data if d.get('result') not in ['Benign', 'Clean']]
+    threats = [transform_threat(d) for d in threats_raw[:8]]
 
     return {
         "stats": {
             "totalScannedToday": total,
             "scannedDeltaPct": 5.2,
             "maliciousDetected": malicious_count,
-            "detectionRatePct": round((malicious_count / total * 100), 1),
+            "detectionRatePct": round((malicious_count / total * 100), 1) if total > 0 else 0,
             "detectionCiLowPct": 97.0,
             "detectionCiHighPct": 99.0,
             "avgScanTimeSec": 1.2,
             "avgFileSizeMb": 3.4
         },
-        "threats": [d for d in data if d.get('result') not in ['Benign', 'Clean']][:8],
+        "threats": threats,
         "detectionsOverTime": [
             {"t": "08:00", "benign": 45, "malicious": 2},
             {"t": "10:00", "benign": 120, "malicious": 5},
@@ -656,7 +682,7 @@ def get_overview_stats():
         ],
         "categories": categories,
         "recentAlerts": [
-             {"id": i, "label": "HIGH", "desc": f"Detected {d['result']} in {d['filename']}"} 
+             {"id": i, "label": "HIGH", "desc": f"Detected {d.get('result')} in {d.get('filename', 'file')}"} 
              for i, d in enumerate(data) if d.get('result') not in ['Benign', 'Clean']
         ][:5]
     }

@@ -293,124 +293,122 @@ def run_quick_inference(
 
 def _feature_based_score(features_vector: List[float], method: str) -> float:
     """
-    Calculate malware score using DISTINCT logic for each model type.
-    This simulates how different architectures perceive the same file features.
+    DYNAMIC feature-based scoring when TensorFlow is unavailable.
+    
+    All scores are CALCULATED from actual file features - NO fixed values.
+    The formula combines:
+      - Entropy contribution (0-40 points)
+      - String density contribution (0-40 points)
+      - PE context multiplier (1x for non-PE, 1.5x for PE)
+      - Model-specific adjustments (±3%)
+    
+    Final score = (entropy_score + string_score) * pe_multiplier * model_adj
     
     Args:
-        features_vector: Preprocessed feature list [entropy_norm, size_norm, suspicious_norm, is_pe, is_exe, ...]
-        method: Model architecture name
+        features_vector: [entropy_norm, size_norm, suspicious_norm, is_pe, is_exe, ...]
+        method: Model name for micro-adjustments
     
     Returns:
-        Probability score (0.0 - 1.0)
+        Probability score (0.0 - 1.0) based on ACTUAL file features
     """
     if len(features_vector) < 5:
-        return 0.05
+        return 0.0
     
-    # Extract raw normalized features
-    # Vector indices based on utils.preprocess_for_model
-    entropy_norm = features_vector[0]        # 0.0 - 1.0 (mapped from 0-8)
-    size_norm = features_vector[1]           # 0.0 - 1.0 (mapped from 0-10MB)
-    suspicious_norm = features_vector[2]     # 0.0 - 1.0 (density of keywords)
+    # ===== EXTRACT ACTUAL FEATURES =====
+    entropy_norm = features_vector[0]        # 0.0 - 1.0 (from 0-8)
+    size_norm = features_vector[1]           # 0.0 - 1.0 (from 0-10MB)
+    suspicious_norm = features_vector[2]     # 0.0 - 1.0 (keyword density)
     is_pe = features_vector[3]               # 0.0 or 1.0
+    is_exe = features_vector[4] if len(features_vector) > 4 else 0.0
     
-    # --- MODEL 1: LSTM (Long Short-Term Memory) ---
-    # Philosophy: Focus on SEQUENTIAL patterns. 
-    # Logic: High sensitivity to "Suspicious Strings" (sequences of bytes) and PE structure.
-    # Weakness: Can miss packed malware if strings are hidden (low entropy sensitivity).
+    # Denormalize entropy for threshold checks
+    entropy = entropy_norm * 8.0  # 0-8 range
+    is_executable = is_pe > 0.5 or is_exe > 0.5
+    
+    # ===== DYNAMIC SCORING CALCULATION =====
+    
+    # 1. ENTROPY SCORE (0 - 0.4 based on actual entropy value)
+    # Mapping: entropy 5.0 -> 0.0, entropy 8.0 -> 0.4
+    # For non-PE: entropy score is capped at 0.1 (high entropy is normal)
+    if is_executable:
+        if entropy <= 5.0:
+            entropy_score = 0.0
+        elif entropy <= 6.0:
+            # Linear from 0 to 0.1 between 5.0-6.0
+            entropy_score = (entropy - 5.0) * 0.1
+        elif entropy <= 7.0:
+            # Linear from 0.1 to 0.25 between 6.0-7.0
+            entropy_score = 0.1 + (entropy - 6.0) * 0.15
+        elif entropy <= 7.5:
+            # Linear from 0.25 to 0.35 between 7.0-7.5
+            entropy_score = 0.25 + (entropy - 7.0) * 0.2
+        else:
+            # Linear from 0.35 to 0.4 between 7.5-8.0
+            entropy_score = 0.35 + (entropy - 7.5) * 0.1
+    else:
+        # Non-PE: High entropy is NORMAL (compressed data)
+        # Only slightly penalize extremely high entropy with no context
+        entropy_score = min(0.05, entropy_norm * 0.05)
+    
+    # 2. STRING DENSITY SCORE (0 - 0.5 based on actual suspicious strings found)
+    # suspicious_norm is already 0-1 (from preprocess_for_model)
+    # Mapping: 0.0 -> 0, 0.1 -> 0.15, 0.3 -> 0.35, 0.5+ -> 0.5
+    if suspicious_norm <= 0.02:
+        string_score = 0.0  # No suspicious strings
+    elif suspicious_norm <= 0.1:
+        # Low density: linear 0 to 0.15
+        string_score = (suspicious_norm - 0.02) * 1.875  # max 0.15
+    elif suspicious_norm <= 0.3:
+        # Moderate: linear 0.15 to 0.35
+        string_score = 0.15 + (suspicious_norm - 0.1) * 1.0  # max 0.35
+    else:
+        # High density: linear 0.35 to 0.5
+        string_score = 0.35 + min(0.15, (suspicious_norm - 0.3) * 0.75)
+    
+    # 3. PE CONTEXT MULTIPLIER
+    # PE files are inherently higher risk for malware
+    if is_executable:
+        pe_multiplier = 1.0  # Base for PE
+        # Add small bonus based on size (very small PEs are suspicious - droppers)
+        if size_norm < 0.01:  # < 100KB
+            pe_multiplier = 1.1
+    else:
+        # Non-PE: significantly reduce the overall score
+        pe_multiplier = 0.4  # Non-executables are much less risky
+    
+    # ===== COMBINE SCORES =====
+    raw_score = (entropy_score + string_score) * pe_multiplier
+    
+    # ===== MODEL-SPECIFIC MICRO-ADJUSTMENT (±3%) =====
+    # Simulates how different architectures might "perceive" features slightly differently
     if method == "lstm":
-        base_score = 0.0
-        
-        # 1. Sequence Analysis (Simulated via suspicious strings density)
-        # LSTM detects malicious sequences like "Invoke-Expression" or ransom notes
-        if suspicious_norm > 0.05: 
-            base_score += suspicious_norm * 0.8  # Strong reaction to strings
-        
-        # 2. Structural Context
-        if is_pe > 0.5:
-            base_score += 0.2  # PE files are inherently riskier for LSTM trained on binaries
-            
-        # 3. Penalize high entropy (LSTM struggles with random/packed sequences)
-        # If entropy is very high, LSTM might be confused (lower score confidence)
-        if entropy_norm > 0.9: 
-            base_score *= 0.8 
-            
-        return min(0.99, base_score)
-
-    # --- MODEL 2: CNN-LSTM (Spatial + Sequential) ---
-    # Philosophy: Focus on SPATIAL patterns (Image-like features) + Local Sequences.
-    # Logic: High sensitivity to ENTROPY distribution (packed sections look like noise blocks)
-    #        and structural layout (PE headers).
+        # LSTM: Slightly more sensitive to sequential patterns (strings)
+        model_adj = 1.0 + (0.03 if string_score > 0.1 else -0.02)
     elif method == "cnn_lstm":
-        base_score = 0.0
-        
-        # 1. Spatial Analysis (Simulated via Entropy)
-        # Packed malware has high entropy blocks which CNN detects well
-        if entropy_norm > 0.85:
-            base_score += 0.6  # High alert for packed files
-        elif entropy_norm > 0.6:
-            base_score += 0.3
-            
-        # 2. Hybrid Feature Check
-        # Balance between strings and structure
-        if suspicious_norm > 0.2:
-            base_score += 0.3
-            
-        if is_pe > 0.5:
-            base_score += 0.1
-            
-        # CNNs are robust; size validates the "image" content
-        if size_norm < 0.01: # Too small to have valid structure
-             base_score *= 0.5
-             
-        return min(0.99, base_score)
-
-    # --- MODEL 3: Transformer (Self-Attention / Global Context) ---
-    # Philosophy: Focus on GLOBAL RELATIONSHIPS and ANOMALIES.
-    # Logic: Can detect subtle correlations. e.g., Low entropy BUT contains specific API calls.
-    #        Or High entropy BUT valid header structure.
+        # CNN-LSTM: Slightly more sensitive to spatial patterns (entropy)
+        model_adj = 1.0 + (0.03 if entropy_score > 0.15 else -0.01)
     elif method == "transformer":
-        base_score = 0.0
-        
-        # 1. Contextual Anomaly Detection
-        # High entropy is suspicious ONLY if it's PE.
-        if is_pe > 0.5 and entropy_norm > 0.85:
-            base_score += 0.95  # Almost certainly packed malware
-        elif is_pe > 0.5:
-            base_score += 0.1   # Standard PE base risk
-            
-        # 2. Attention to "Key" token indicators (Strings)
-        if suspicious_norm > 0.1:
-            base_score += suspicious_norm * 0.6
-            
-        # 3. Size Context
-        # Extremely small PE files are often stagers/downloaders
-        if is_pe > 0.5 and size_norm < 0.05: # < 500KB
-            base_score += 0.2
-            
-        return min(0.99, base_score)
-
-    # Fallback
-    return 0.0
+        # Transformer: Balanced, slight boost when both features present
+        model_adj = 1.0 + (0.02 if (entropy_score > 0.1 and string_score > 0.05) else -0.01)
+    else:
+        model_adj = 1.0
+    
+    final_score = raw_score * model_adj
+    
+    # Clamp to valid range
+    return max(0.0, min(0.95, final_score))
 
 
 def _calibrate_score(raw_score: float, method: str) -> int:
-    """Calibrate raw probability to risk score 0-100 based on model personality"""
-    if method == "lstm":
-        # LSTM is conservative: needs strong signal to flag High Risk
-        # 0.5 -> 40, 0.8 -> 85
-        if raw_score < 0.2: return int(raw_score * 100)
-        return int(min(100, raw_score * 100 * 1.1)) # Boost high scores slightly
-        
-    elif method == "cnn_lstm":
-        # CNN is aggressive on packed files: steep curve
-        # 0.6 -> 75
-        return int(min(100, raw_score ** 0.5 * 100))
-        
-    elif method == "transformer":
-        # Transformer is precise: linear mapping but high threshold
-        return int(raw_score * 100)
+    """
+    UNIFIED calibration: raw probability to risk score 0-100
     
-    return int(raw_score * 100)
+    All models now use LINEAR mapping for consistency.
+    The only variance is in _feature_based_score, not here.
+    """
+    # Simple linear mapping: probability 0-1 -> risk score 0-100
+    risk_score = int(raw_score * 100)
+    return max(0, min(100, risk_score))
 
 
 def _calculate_confidence(raw_score: float, used_tf: bool) -> float:

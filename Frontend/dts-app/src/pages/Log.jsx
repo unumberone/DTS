@@ -31,21 +31,12 @@ import "../css/log.css";
 const { RangePicker } = DatePicker;
 const { Text } = Typography;
 
-const API_BASE = process.env.REACT_APP_API_BASE_URL || "";
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
+console.log("[Log.jsx] API_BASE:", API_BASE);
 
 async function getLogs(params = {}, { signal } = {}) {
-  const qs = new URLSearchParams();
-
-  if (params.start) qs.set("start", params.start);
-  if (params.end) qs.set("end", params.end);
-  if (params.source) qs.set("source", params.source);
-  if (params.eventType) qs.set("eventType", params.eventType);
-  if (params.severity) qs.set("severity", params.severity);
-  if (params.keyword) qs.set("keyword", params.keyword);
-  if (params.page) qs.set("page", String(params.page));
-  if (params.pageSize) qs.set("pageSize", String(params.pageSize));
-
-  const url = `${API_BASE}/api/logs${qs.toString() ? `?${qs}` : ""}`;
+  const url = `${API_BASE}/api/logs`;
+  console.log("[Log.jsx] Fetching:", url);
 
   const res = await fetch(url, { signal });
   if (!res.ok) {
@@ -54,31 +45,79 @@ async function getLogs(params = {}, { signal } = {}) {
   }
 
   const json = await res.json();
-  const rawList = Array.isArray(json) ? json : (json?.items || []);
+  let rawList = Array.isArray(json) ? json : (json?.items || []);
 
-  // Map to Log items (simulating Sysmon format as requested)
-  // Backend returns: { filename, result, details, timestamp, id, ... }
-  const items = rawList.slice().reverse().map((item, index) => {
-    const isSus = item.result !== "Benign" && item.result !== "Clean";
+  // Backend returns: { filename, result, details, timestamp, id, confidence, type, uploader, ... }
+  // Transform to log format
+  let items = rawList.slice().reverse().map((item, index) => {
+    const result = item.result || "Unknown";
+    const isMalicious = result === "Malicious" || result === "MALICIOUS";
+    const isSuspicious = result === "Suspicious" || result === "SUSPICIOUS";
+
+    // Determine severity based on result
+    let severity = "Informational";
+    if (isMalicious) severity = "Critical";
+    else if (isSuspicious) severity = "Medium";
+
+    // Determine event type based on result
+    let eventType = "File Scan";
+    if (isMalicious) eventType = "Malware Detected";
+    else if (isSuspicious) eventType = "Suspicious Activity";
+
     return {
       id: item.id || index.toString(),
       timestamp: item.timestamp,
-      source: "Sysmon",
-      eventId: 11, // FileCreate
-      eventType: "File Create (Rule: RansomwareDetection)",
-      severity: isSus ? (item.result === "Suspicious" ? "Medium" : "Critical") : "Informational",
-      message: `File created: ${item.filename} | Detection: ${item.result}`,
+      source: "DTS Scanner",
+      eventId: isMalicious ? 1 : (isSuspicious ? 2 : 0),
+      eventType: eventType,
+      severity: severity,
+      result: result,
+      filename: item.filename || "Unknown",
+      message: `File: ${item.filename} | Result: ${result} | Confidence: ${item.confidence || 0}%`,
       raw: JSON.stringify(item, null, 2),
       parsed: {
-        image: "C:\\Windows\\Explorer.EXE",
-        targetFilename: `D:\\Uploads\\${item.filename}`,
-        detectionResult: item.result,
+        filename: item.filename,
+        result: result,
         confidence: item.confidence,
+        type: item.type || "unknown",
+        uploader: item.uploader || "admin",
         details: item.details
       },
-      insights: [item.details]
+      insights: item.details ? [item.details] : []
     };
   });
+
+  // ===== CLIENT-SIDE FILTERING =====
+
+  // Date Range filter
+  if (params.start && params.end) {
+    const startDate = new Date(params.start);
+    const endDate = new Date(params.end);
+    items = items.filter(item => {
+      const itemDate = new Date(item.timestamp);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+  }
+
+  // Result filter (using eventType)
+  if (params.eventType) {
+    items = items.filter(item => item.eventType === params.eventType);
+  }
+
+  // Severity filter
+  if (params.severity) {
+    items = items.filter(item => item.severity === params.severity);
+  }
+
+  // Keyword filter (search in filename and message)
+  if (params.keyword) {
+    const kw = params.keyword.toLowerCase();
+    items = items.filter(item =>
+      item.filename?.toLowerCase().includes(kw) ||
+      item.message?.toLowerCase().includes(kw) ||
+      item.result?.toLowerCase().includes(kw)
+    );
+  }
 
   return { items, total: items.length };
 }
@@ -108,14 +147,13 @@ const MOCK_LOGS = [
   },
 ];
 
-const LOG_SOURCES = ["Sysmon", "Firewall", "Application", "Windows Security"];
+// Filter options matched to DTS data
 const EVENT_TYPES = [
-  "Process Creation",
-  "Network Connection",
-  "File Modification",
-  "Registry Access",
+  "File Scan",
+  "Malware Detected",
+  "Suspicious Activity",
 ];
-const SEVERITIES = ["Critical", "High", "Medium", "Low", "Informational"];
+const SEVERITIES = ["Critical", "Medium", "Informational"];
 
 function severityTag(sev) {
   const v = String(sev || "").toLowerCase();
@@ -156,7 +194,6 @@ export default function Log() {
       return {
         start,
         end,
-        source: values?.source,
         eventType: values?.eventType,
         severity: values?.severity,
         keyword: normalizeKeyword(values?.keyword),
@@ -318,73 +355,64 @@ export default function Log() {
           form={form}
           layout="vertical"
           initialValues={{
-            source: undefined,
             eventType: undefined,
             severity: undefined,
             keyword: "",
             range: null,
           }}
         >
-          <Row gutter={[12, 12]} align="bottom">
-            <Col xs={24} md={7} lg={6}>
-              <Form.Item label="Date Range" name="range">
+          <Row gutter={[16, 0]} align="middle">
+            <Col xs={24} md={6} lg={5}>
+              <Form.Item label="Date Range" name="range" style={{ marginBottom: 0 }}>
                 <RangePicker className="w-full" />
               </Form.Item>
             </Col>
 
             <Col xs={24} md={5} lg={4}>
-              <Form.Item label="Log Source" name="source">
+              <Form.Item label="Event Type" name="eventType" style={{ marginBottom: 0 }}>
                 <Select
                   allowClear
-                  placeholder="Select source"
-                  options={LOG_SOURCES.map((s) => ({ value: s, label: s }))}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col xs={24} md={5} lg={4}>
-              <Form.Item label="Event Type" name="eventType">
-                <Select
-                  allowClear
-                  placeholder="Select type"
+                  placeholder="All Events"
                   options={EVENT_TYPES.map((s) => ({ value: s, label: s }))}
                 />
               </Form.Item>
             </Col>
 
             <Col xs={24} md={4} lg={3}>
-              <Form.Item label="Severity" name="severity">
+              <Form.Item label="Severity" name="severity" style={{ marginBottom: 0 }}>
                 <Select
                   allowClear
-                  placeholder="Severity"
+                  placeholder="All"
                   options={SEVERITIES.map((s) => ({ value: s, label: s }))}
                 />
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={7} lg={5}>
-              <Form.Item label="Keywords / Process Names" name="keyword">
+            <Col xs={24} md={6} lg={5}>
+              <Form.Item label="Search Keywords" name="keyword" style={{ marginBottom: 0 }}>
                 <Input
                   allowClear
-                  placeholder="Search / Process Names"
+                  placeholder="Filename, result..."
                   prefix={<SearchOutlined />}
                 />
               </Form.Item>
             </Col>
 
-            <Col xs={24} md={8} lg={2}>
-              <Space>
-                <Button
-                  type="primary"
-                  icon={<FilterOutlined />}
-                  onClick={onApply}
-                >
-                  Apply
-                </Button>
-                <Button icon={<ReloadOutlined />} onClick={onReset}>
-                  Reset
-                </Button>
-              </Space>
+            <Col xs={24} md={3} lg={4}>
+              <Form.Item label=" " style={{ marginBottom: 0 }}>
+                <Space>
+                  <Button
+                    type="primary"
+                    icon={<FilterOutlined />}
+                    onClick={onApply}
+                  >
+                    Apply
+                  </Button>
+                  <Button icon={<ReloadOutlined />} onClick={onReset}>
+                    Reset
+                  </Button>
+                </Space>
+              </Form.Item>
             </Col>
           </Row>
         </Form>

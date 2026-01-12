@@ -124,15 +124,17 @@ class HybridEngine:
         # Then aggregates results using majority voting
         
         if mode == "quick": # Run parallel scan for ANY method when quick mode is selected (method selector acts as 'primary view' filter in UI)
-            print(f"[HYBRID] Starting QUICK SCAN (parallel 3 models) for {filename}")
+            print(f"[HYBRID] Starting QUICK SCAN (parallel 4 AI models) for {filename}")
             
             # Get features for ML models
             from utils import extract_features_from_bytes, preprocess_for_model
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            import time
+            
+            start_time = time.time()
+            
             raw_feats = extract_features_from_bytes(file_bytes, filename)
             vector = preprocess_for_model(raw_feats, 100)
-            
-            # Run quick inference (parallel execution of all 3 models)
-            quick_result = run_quick_inference(vector, filename)
             
             # Also run rule-based for hybrid combination
             sha256 = hashlib.sha256(file_bytes).hexdigest()
@@ -140,8 +142,68 @@ class HybridEngine:
             features = self._extract_features(file_bytes, file_type, filename)
             rule_result = self._apply_rules(features, file_type, list_result)
             
-            # Combine ML and rule-based results
-            # If blacklisted, override ML results
+            # ===== PARALLEL EXECUTION: 3 ML Models + GPT (4 total) =====
+            from gpt_engine import analyze_with_gpt, aggregate_all_verdicts
+            from inference_dispatcher import run_single_model_inference
+            
+            results = {}
+            
+            def run_lstm():
+                return ("lstm", run_single_model_inference("lstm", vector, filename))
+            
+            def run_cnn_lstm():
+                return ("cnn_lstm", run_single_model_inference("cnn_lstm", vector, filename))
+            
+            def run_transformer():
+                return ("transformer", run_single_model_inference("transformer", vector, filename))
+            
+            def run_gpt():
+                return ("gpt", analyze_with_gpt(
+                    filename=filename,
+                    file_size=len(file_bytes),
+                    file_type=file_type,
+                    features=features,
+                    local_results=None,  # Running in parallel, no ML results yet
+                    file_bytes=file_bytes  # Pass raw bytes for content analysis
+                ))
+            
+            # Execute all 4 AI models in parallel
+            print(f"[HYBRID] Launching 4 parallel AI workers...")
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                futures = [
+                    executor.submit(run_lstm),
+                    executor.submit(run_cnn_lstm),
+                    executor.submit(run_transformer),
+                    executor.submit(run_gpt),
+                ]
+                
+                for future in as_completed(futures):
+                    try:
+                        name, result = future.result()
+                        results[name] = result
+                        print(f"[HYBRID] ✓ {name.upper()} complete: {result.get('verdict', 'N/A')}")
+                    except Exception as e:
+                        print(f"[HYBRID] ✗ Model failed: {e}")
+            
+            elapsed_ms = (time.time() - start_time) * 1000
+            print(f"[HYBRID] All 4 AI models completed in {elapsed_ms:.0f}ms")
+            
+            # ===== ENSEMBLE AGGREGATION: Combine all 4 AI + Rules =====
+            lstm_res = results.get("lstm", {})
+            cnn_lstm_res = results.get("cnn_lstm", {})
+            transformer_res = results.get("transformer", {})
+            gpt_res = results.get("gpt", {})
+            
+            # Use weighted ensemble to get final verdict
+            ensemble_result = aggregate_all_verdicts(
+                lstm_result=lstm_res,
+                cnn_lstm_result=cnn_lstm_res,
+                transformer_result=transformer_res,
+                gpt_result=gpt_res,
+                rule_result=rule_result
+            )
+            
+            # Override if blacklisted/whitelisted
             if list_result["source"] == "blacklist":
                 final_verdict = "MALICIOUS"
                 final_score = 100
@@ -149,37 +211,34 @@ class HybridEngine:
                 final_verdict = "CLEAN"
                 final_score = 0
             else:
-                # Weight: ML 60%, Rules 40%
-                ml_score = quick_result["risk_score"]
-                rule_score = rule_result["risk_score"]
-                final_score = int(ml_score * 0.6 + rule_score * 0.4)
-                
-                if final_score >= 70:
-                    final_verdict = "MALICIOUS"
-                elif final_score >= 40:
-                    final_verdict = "SUSPICIOUS"
-                else:
-                    final_verdict = "CLEAN"
-            
+                final_verdict = ensemble_result["verdict"]
+                final_score = ensemble_result["risk_score"]
+
             base_result["results"] = {
                 "hybrid": {
                     "verdict": final_verdict,
                     "risk_score": final_score,
-                    "confidence": quick_result["confidence"],
+                    "confidence": ensemble_result["confidence"],
                     "evidence": rule_result.get("evidence", []),
-                    "details": f"Quick Scan: 3 models parallel | ML: {quick_result['risk_score']} | Rules: {rule_result['risk_score']}",
-                    "source": "Quick Engine (Parallel ML + Rules)"
+                    "details": f"Ensemble: 4 AI models + Rules | {ensemble_result['details']}",
+                    "source": "Hybrid AI Ensemble (3 ML + GPT + Rules)"
                 },
-                "quick_ml": quick_result,
+                "ensemble": ensemble_result,  # Full aggregation details
                 "rule_only": rule_result,
                 "list_only": list_result,
+                "gpt_analysis": gpt_res,  # GPT result with explanation
+                
                 # Individual model results for detailed view
-                "lstm": quick_result["model_results"].get("lstm", {}),
-                "cnn_lstm": quick_result["model_results"].get("cnn_lstm", {}),
-                "transformer": quick_result["model_results"].get("transformer", {})
+                "lstm": lstm_res,
+                "cnn_lstm": cnn_lstm_res,
+                "transformer": transformer_res
             }
             
-            base_result["timing"] = quick_result.get("timing", {})
+            base_result["timing"] = {
+                "total_ms": round(elapsed_ms, 2),
+                "parallel": True,
+                "models_count": 4
+            }
             return base_result
         
         # --- STANDARD MODE (method-specific) ---
@@ -303,55 +362,136 @@ class HybridEngine:
         return entropy
 
     def _apply_rules(self, features: Dict, file_type: str, list_result: Dict) -> Dict:
-        """Phase C: Rule Engine"""
+        """Phase C: Rule Engine - STRICT THRESHOLDS
+        
+        MALICIOUS: score >= 70 (multi-indicator evidence required)
+        SUSPICIOUS: score >= 35
+        CLEAN: score < 35
+        
+        Key indicators:
+        - PE + High entropy (>7.2): +40
+        - Ransomware keywords: +30 each
+        - PDF with JavaScript: +25
+        - Non-PE high entropy: +10 (normal for compressed)
+        """
         score = 0
         hits = []
         
-        # If Whitelisted, skip rules unless critical (Policy)
+        # If Whitelisted, skip rules
         if list_result["source"] == "whitelist":
             return {"verdict": "CLEAN", "risk_score": 0, "evidence": [], "details": "Trusted by Whitelist"}
 
-        # Iterate rules
+        entropy = features.get("entropy", 0)
+        strings = features.get("strings", [])
+        strings_lower = [s.lower() for s in strings]
+        is_pe = file_type == "pe_executable"
+        
+        # ===== CORE RULES (Hardcoded for reliability) =====
+        
+        # RULE 1: PE + High Entropy = Packed/Encrypted (STRONG indicator)
+        if is_pe and entropy > 7.2:
+            score += 40
+            hits.append({
+                "rule_id": "CORE_PE_HIGH_ENTROPY",
+                "desc": "PE executable with high entropy (packed/encrypted)",
+                "weight": 40,
+                "evidence": f"Entropy {entropy:.2f} > 7.2 in PE file"
+            })
+        elif is_pe and entropy > 6.5:
+            score += 15
+            hits.append({
+                "rule_id": "CORE_PE_MED_ENTROPY",
+                "desc": "PE executable with elevated entropy",
+                "weight": 15,
+                "evidence": f"Entropy {entropy:.2f} > 6.5 in PE file"
+            })
+        
+        # RULE 2: Ransomware Keywords (CRITICAL)
+        ransomware_keywords = [
+            'encrypt', 'decrypt', 'ransom', 'bitcoin', 'wallet', 'payment',
+            'locked', 'cryptoapi', 'your files', 'all your', '.onion'
+        ]
+        found_ransom = [kw for kw in ransomware_keywords if any(kw in s for s in strings_lower)]
+        if found_ransom:
+            weight = min(50, len(found_ransom) * 20)  # Cap at 50
+            score += weight
+            hits.append({
+                "rule_id": "CORE_RANSOMWARE_KW",
+                "desc": "Ransomware-related keywords detected",
+                "weight": weight,
+                "evidence": f"Found: {found_ransom[:5]}"
+            })
+        
+        # RULE 3: Suspicious System Commands (PE only)
+        if is_pe:
+            system_commands = ['vssadmin', 'bcdedit', 'wmic', 'shadowcopy', 'net stop', 'taskkill']
+            found_cmd = [cmd for cmd in system_commands if any(cmd in s for s in strings_lower)]
+            if found_cmd:
+                weight = min(35, len(found_cmd) * 15)
+                score += weight
+                hits.append({
+                    "rule_id": "CORE_SYS_COMMANDS",
+                    "desc": "Suspicious system commands detected",
+                    "weight": weight,
+                    "evidence": f"Found: {found_cmd[:5]}"
+                })
+        
+        # RULE 4: PDF with JavaScript/Actions
+        if file_type == "pdf":
+            pdf_keys = features.get("metadata", {}).get("pdf_keys", [])
+            if "/JavaScript" in pdf_keys:
+                score += 25
+                hits.append({
+                    "rule_id": "CORE_PDF_JS",
+                    "desc": "PDF contains JavaScript",
+                    "weight": 25,
+                    "evidence": "Found /JavaScript key"
+                })
+            if "/OpenAction" in pdf_keys:
+                score += 15
+                hits.append({
+                    "rule_id": "CORE_PDF_AUTORUN",
+                    "desc": "PDF has auto-run action",
+                    "weight": 15,
+                    "evidence": "Found /OpenAction key"
+                })
+        
+        # RULE 5: Non-PE high entropy is NORMAL (reduce false positives)
+        if not is_pe and entropy > 7.0:
+            # Don't add to score - this is expected for ZIP, PDF, images
+            hits.append({
+                "rule_id": "INFO_COMPRESSED",
+                "desc": "High entropy expected for compressed/encrypted format",
+                "weight": 0,
+                "evidence": f"Entropy {entropy:.2f} (normal for {file_type})"
+            })
+        
+        # ===== APPLY CONFIG RULES (from rules.json) =====
         for rule in self.rules:
-            # Check target scope
             targets = rule.get("target", [])
             if "all" not in targets and file_type not in targets:
-                # Map broad categories (pe_executable -> pe)
                 if file_type == "pe_executable" and "pe" in targets: pass
                 elif file_type == "zip_archive" and "archive" in targets: pass
-                elif "unknown" in targets: pass # Apply general rules
+                elif "unknown" in targets: pass
                 else: continue
-                
-            # Check logic
+            
             matched = False
             evidence = ""
             
             if rule["type"] == "entropy":
-                # Condition e.g. "> 7.2"
                 op, val = rule["condition"].split()
                 val = float(val)
-                ent = features["entropy"]
-                if op == ">" and ent > val: matched = True
-                evidence = f"Entropy {ent:.2f} > {val}"
-                
+                if op == ">" and entropy > val: matched = True
+                evidence = f"Entropy {entropy:.2f} > {val}"
+            
             elif rule["type"] == "dictionary":
-                # Check if any keyword exists in metadata keys or strings
                 keywords = rule["match"]
-                # Search in keys
                 keys = features["metadata"].get("pdf_keys", [])
                 found = [k for k in keywords if k in keys]
                 if found:
                     matched = True
                     evidence = f"Found keys: {found}"
-                    
-            elif rule["type"] == "regex" or rule["type"] == "string":
-                # Simplified check in extracted strings
-                pattern = rule["match"]
-                # In real prod, we'd regex the full content or chunks
-                # Here we check the 'strings' list roughly
-                # TODO: Implement full regex scan
-                pass 
-                
+            
             if matched:
                 score += rule["weight"]
                 hits.append({
@@ -363,16 +503,19 @@ class HybridEngine:
         
         risk_score = min(100, score)
         
-        # Determine verdict
-        if risk_score >= 80: verdict = "MALICIOUS"
-        elif risk_score >= 40: verdict = "SUSPICIOUS"
-        else: verdict = "CLEAN"
+        # STRICT THRESHOLDS
+        if risk_score >= 70:
+            verdict = "MALICIOUS"
+        elif risk_score >= 35:
+            verdict = "SUSPICIOUS"
+        else:
+            verdict = "CLEAN"
         
         return {
             "verdict": verdict,
             "risk_score": risk_score,
             "evidence": hits,
-            "details": f"Matched {len(hits)} rules"
+            "details": f"Matched {len(hits)} rules (score: {risk_score})"
         }
 
     def _combine_scores(self, list_res: Dict, rule_res: Dict) -> Dict:

@@ -8,6 +8,12 @@ import os
 import datetime
 import random
 
+from dotenv import load_dotenv
+import os
+
+# Load env vars
+load_dotenv()
+
 app = FastAPI()
 
 # Get base directory
@@ -118,10 +124,13 @@ async def api_scan_file(file: UploadFile = File(...), method: str = Form("hybrid
         legacy_record = {
             "id": scan_result["id"],
             "filename": file.filename,
+            "type": scan_result.get("file", {}).get("file_type", file.filename.split('.')[-1] if '.' in file.filename else "unknown"),
+            "file_size": len(file_bytes),
             "result": "Benign" if primary_verdict == "CLEAN" else primary_verdict,
             "confidence": primary_conf,
             "details": f"Mode: {mode.upper()} | Method: {method}",
-            "timestamp": scan_result["timestamp"]
+            "timestamp": scan_result["timestamp"],
+            "uploader": "admin"
         }
         save_data(legacy_record)
 

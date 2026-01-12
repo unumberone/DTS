@@ -1287,5 +1287,148 @@
         "confidence": 6,
         "details": "Mode: QUICK | Method: cnn_lstm",
         "timestamp": "2026-01-11T22:53:10.032417"
+    },
+    {
+        "id": "53513",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 29,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:26:30.034274",
+        "uploader": "admin"
+    },
+    {
+        "id": "34380",
+        "filename": "sample.bin",
+        "type": "unknown",
+        "file_size": 7,
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:28:22.964170",
+        "uploader": "admin"
+    },
+    {
+        "id": "20891",
+        "filename": "sample.bin",
+        "type": "unknown",
+        "file_size": 7,
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: QUICK | Method: lstm",
+        "timestamp": "2026-01-12T22:28:29.467883",
+        "uploader": "admin"
+    },
+    {
+        "id": "87716",
+        "filename": "benign_test.pdf",
+        "type": "pdf",
+        "file_size": 2075,
+        "result": "Benign",
+        "confidence": 6,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:29:48.685855",
+        "uploader": "admin"
+    },
+    {
+        "id": "19399",
+        "filename": "benign_test.pdf",
+        "type": "pdf",
+        "file_size": 2075,
+        "result": "Benign",
+        "confidence": 6,
+        "details": "Mode: QUICK | Method: lstm",
+        "timestamp": "2026-01-12T22:29:56.629222",
+        "uploader": "admin"
+    },
+    {
+        "id": "90063",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 14,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:36:09.932117",
+        "uploader": "admin"
+    },
+    {
+        "id": "96898",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 18,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:41:45.116494",
+        "uploader": "admin"
+    },
+    {
+        "id": "81983",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:42:53.640585",
+        "uploader": "admin"
+    },
+    {
+        "id": "26933",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: lstm",
+        "timestamp": "2026-01-12T22:43:00.869285",
+        "uploader": "admin"
+    },
+    {
+        "id": "86693",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 2,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:46:01.557010",
+        "uploader": "admin"
+    },
+    {
+        "id": "47135",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 2,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:50:01.653720",
+        "uploader": "admin"
+    },
+    {
+        "id": "70423",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 7,
+        "details": "Mode: QUICK | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:51:42.139255",
+        "uploader": "admin"
+    },
+    {
+        "id": "32824",
+        "filename": "De Thi - PTBT_Ky I_2025 2026 (1).doc",
+        "type": "unknown",
+        "file_size": 1816576,
+        "result": "Benign",
+        "confidence": 0,
+        "details": "Mode: DEEP | Method: cnn_lstm",
+        "timestamp": "2026-01-12T22:51:45.254789",
+        "uploader": "admin"
     }
 ]

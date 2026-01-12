@@ -1,5 +1,12 @@
-node_modules/ 
-venv/ 
-backend/venv/ 
-uploads/ 
+node_modules/
 __pycache__/
+venv/
+env/
+.env
+*.env
+dist/
+build/
+coverage/
+uploads/
+*.log
+backend/venv/
